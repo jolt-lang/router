@@ -1,0 +1,15 @@
+{:paths ["src"]
+
+ ;; Load with JOLT_FEATURES including "clj" so reitit-core reads its :clj
+ ;; branches (this adapter mirrors reitit's reitit.Trie Java class). reitit-core
+ ;; and its meta-merge dep are pulled by consumers; declared here for tests.
+ :deps {metosin/reitit-core {:git/url "https://github.com/metosin/reitit"
+                             :git/sha "5d5c965deb3c7c8d64b8dd636432eaa14f0324ec"
+                             :deps/root "modules/reitit-core"}
+        weavejester/meta-merge {:git/url "https://github.com/weavejester/meta-merge"
+                                :git/sha "c968c38baccd4219fe0ba592d89af37ea8e426bf"}}
+
+ :aliases {:test {:extra-paths ["test"]
+                  :main-opts ["-m" "reitit.trie-jolt-test"]}}
+
+ :tasks {test "JOLT_FEATURES=clj,jolt,default jolt-deps -M:test"}}
