@@ -30,5 +30,5 @@
     (check "url-decoded param" {:id "a b"}
            (-> (r/match-by-path router "/api/users/a%20b") :path-params)))
   (if (pos? @failures)
-    (do (println @failures "failing check(s)") (janet.os/exit 1))
+    (throw (ex-info "test failures" {:n @failures}))
     (println "all checks passed")))
