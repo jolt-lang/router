@@ -1,4 +1,4 @@
-# ring-janet router (reitit on Jolt)
+# jolt-lang/router (reitit on Jolt)
 
 [reitit](https://github.com/metosin/reitit) routing for
 [Jolt](https://github.com/jolt-lang/jolt).
