@@ -12,4 +12,4 @@
  :aliases {:test {:extra-paths ["test"]
                   :main-opts ["-m" "reitit.trie-jolt-test"]}}
 
- :tasks {test "joltc -M:test"}}
+ :tasks {test "jolt -M:test"}}
