@@ -11,13 +11,16 @@ then reitit-core itself loads **unmodified** from git and routes normally.
 
 ## Usage
 
-Load with `JOLT_FEATURES` including `clj` (so reitit reads its `:clj`
-branches), require `reitit.trie-jolt` before building a router, and use
-reitit-core as usual:
+Add the dependency and use reitit-core as usual. reitit-core and meta-merge
+come along with it:
 
 ```clojure
-(require '[reitit.trie-jolt]          ; registers the Trie mirror
-         '[reitit.core :as r])
+;; deps.edn
+:deps {jolt-lang/router {:git/url "https://github.com/jolt-lang/router" :git/sha "..."}}
+```
+
+```clojure
+(require '[reitit.core :as r])
 
 (def router
   (r/router [["/api/users"      :users]
@@ -28,14 +31,9 @@ reitit-core as usual:
 ;; => #reitit.core.Match{:data :user :path-params {:id "42"} ...}
 ```
 
-```clojure
-;; deps.edn — pull reitit-core (a monorepo) + this adapter
-:deps {metosin/reitit-core {:git/url "https://github.com/metosin/reitit"
-                            :git/sha "..." :deps/root "modules/reitit-core"}
-       weavejester/meta-merge {:git/url "https://github.com/weavejester/meta-merge"
-                               :git/sha "..."}
-       jolt-lang/router {:git/url "https://github.com/jolt-lang/router" :git/sha "..."}}
-```
+There is nothing to require first. deps.edn declares `reitit.Trie` under
+`:jolt/provides`, so reitit's first reference to the class loads
+`reitit.trie-jolt`. reitit's `:clj` branches are the ones jolt reads by default.
 
 The [ring-app example](https://github.com/jolt-lang/examples/tree/main/ring-app)
 uses it to route a real web app.
@@ -43,5 +41,5 @@ uses it to route a real web app.
 ## Tests
 
 ```bash
-JOLT_FEATURES=clj,jolt,default jolt-deps -M:test
+jolt -M:test
 ```

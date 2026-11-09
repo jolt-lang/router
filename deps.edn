@@ -2,12 +2,17 @@
 
  ;; This adapter mirrors reitit's reitit.Trie Java class so reitit-core's :clj
  ;; branches resolve (:clj is one of jolt's default reader features). reitit-core
- ;; and its meta-merge dep are pulled by consumers; declared here for tests.
+ ;; and its meta-merge dep come along transitively for consumers.
  :deps {metosin/reitit-core {:git/url "https://github.com/metosin/reitit"
                              :git/sha "5d5c965deb3c7c8d64b8dd636432eaa14f0324ec"
                              :deps/root "modules/reitit-core"}
         weavejester/meta-merge {:git/url "https://github.com/weavejester/meta-merge"
                                 :git/sha "c968c38baccd4219fe0ba592d89af37ea8e426bf"}}
+
+ ;; reitit.trie and reitit.impl reach for reitit.Trie with no require of this
+ ;; adapter, so declare the class: on the first reference jolt loads
+ ;; reitit.trie-jolt, which installs it.
+ :jolt/provides {reitit.trie-jolt ["reitit.Trie"]}
 
  :aliases {:test {:extra-paths ["test"]
                   :main-opts ["-m" "reitit.trie-jolt-test"]}}
