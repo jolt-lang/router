@@ -6,9 +6,9 @@
   via static factory methods (Trie/dataMatcher, Trie/staticMatcher, ...) and
   Trie/lookup. Jolt has no JVM, so this namespace reimplements those matchers
   in Clojure and registers them as a `reitit.Trie` host class through jolt's
-  __register-class-* hooks. Requiring this namespace (with JOLT_FEATURES
-  including clj, so reitit reads its :clj branches) is all that's needed for
-  reitit routing to work on jolt.
+  __register-class-* hooks. deps.edn declares reitit.Trie under :jolt/provides,
+  so jolt loads this namespace on reitit's first reference to the class; reitit
+  reads its :clj branches under jolt's default reader features.
 
   A matcher is a map {:match (fn [i max path] -> match|nil) :depth n :length n};
   a match is {:params <map> :data <any>}. reitit reads .params/.data off the

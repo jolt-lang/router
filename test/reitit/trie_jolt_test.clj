@@ -1,6 +1,8 @@
+;; No require of reitit.trie-jolt: deps.edn declares reitit.Trie under
+;; :jolt/provides, so reitit's first reference to the class loads the adapter.
+;; A project using reitit should not have to know the adapter's namespace.
 (ns reitit.trie-jolt-test
-  (:require [reitit.trie-jolt]
-            [reitit.core :as r]))
+  (:require [reitit.core :as r]))
 
 (def failures (atom 0))
 (defn check [label expected actual]
@@ -11,6 +13,7 @@
 
 (defn -main [& _]
   (println "reitit routing on jolt via the Trie mirror")
+  (check "adapter not loaded before first use" nil (find-ns 'reitit.trie-jolt))
   (let [router (r/router [["/api/users" :users]
                           ["/api/users/:id" :user]
                           ["/api/users/:id/posts/:post-id" :post]
